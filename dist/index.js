@@ -7,8 +7,9 @@ var __export = (target, all) => {
 // src/providers/tokenProvider.ts
 var TokenPriceProvider = class {
   async get(_lengthruntime, message, _state) {
+    var _a;
     try {
-      const content = typeof message.content === "string" ? message.content : message.content?.text;
+      const content = typeof message.content === "string" ? message.content : (_a = message.content) == null ? void 0 : _a.text;
       if (!content) {
         throw new Error("No message content provided");
       }
@@ -56,17 +57,19 @@ var TokenPriceProvider = class {
   }
   getBestPair(pairs) {
     return pairs.reduce((best, current) => {
-      const bestLiquidity = Number.parseFloat(best.liquidity?.usd || "0");
-      const currentLiquidity = Number.parseFloat(current.liquidity?.usd || "0");
+      var _a, _b;
+      const bestLiquidity = Number.parseFloat(((_a = best.liquidity) == null ? void 0 : _a.usd) || "0");
+      const currentLiquidity = Number.parseFloat(((_b = current.liquidity) == null ? void 0 : _b.usd) || "0");
       return currentLiquidity > bestLiquidity ? current : best;
     }, pairs[0]);
   }
   formatPriceData(pair) {
+    var _a, _b;
     const price = Number.parseFloat(pair.priceUsd).toFixed(6);
     const liquidity = Number.parseFloat(
-      pair.liquidity?.usd || "0"
+      ((_a = pair.liquidity) == null ? void 0 : _a.usd) || "0"
     ).toLocaleString();
-    const volume = (pair.volume?.h24 || 0).toLocaleString();
+    const volume = (((_b = pair.volume) == null ? void 0 : _b.h24) || 0).toLocaleString();
     return `
         The price of ${pair.baseToken.symbol} is $${price} USD, with liquidity of $${liquidity} and 24h volume of $${volume}.`;
   }
@@ -93,7 +96,8 @@ var TokenPriceAction = class {
   suppressInitialMessage = true;
   template = priceTemplate;
   async validate(_runtime, message) {
-    const content = typeof message.content === "string" ? message.content : message.content?.text;
+    var _a;
+    const content = typeof message.content === "string" ? message.content : (_a = message.content) == null ? void 0 : _a.text;
     if (!content) return false;
     const hasPriceKeyword = /\b(price|value|worth|cost)\b/i.test(content);
     const hasToken = /0x[a-fA-F0-9]{40}/.test(content) || /[$#]?[a-zA-Z0-9]+/i.test(content);
@@ -236,7 +240,8 @@ var TokenPriceEvaluator = class {
   similes = ["price", "token price", "check price"];
   description = "Evaluates messages for token price requests";
   async validate(runtime, message) {
-    const content = typeof message.content === "string" ? message.content : message.content?.text;
+    var _a;
+    const content = typeof message.content === "string" ? message.content : (_a = message.content) == null ? void 0 : _a.text;
     if (!content) return false;
     const hasPriceKeyword = /\b(price|value|worth|cost)\b/i.test(content);
     const hasToken = /0x[a-fA-F0-9]{40}/.test(content) || // Ethereum address
@@ -326,7 +331,8 @@ var LatestTokensAction = class {
   suppressInitialMessage = true;
   template = latestTokensTemplate;
   async validate(_runtime, message) {
-    const content = typeof message.content === "string" ? message.content : message.content?.text;
+    var _a;
+    const content = typeof message.content === "string" ? message.content : (_a = message.content) == null ? void 0 : _a.text;
     if (!content) return false;
     const hasLatestKeyword = /\b(latest|new|recent)\b/i.test(content);
     const hasTokensKeyword = /\b(tokens?|coins?|crypto)\b/i.test(content);
@@ -417,7 +423,8 @@ var LatestBoostedTokensAction = class {
   suppressInitialMessage = true;
   template = latestBoostedTemplate;
   async validate(_runtime, message) {
-    const content = typeof message.content === "string" ? message.content : message.content?.text;
+    var _a;
+    const content = typeof message.content === "string" ? message.content : (_a = message.content) == null ? void 0 : _a.text;
     if (!content) return false;
     const hasLatestKeyword = /\b(latest|new|recent)\b/i.test(content);
     const hasBoostedKeyword = /\b(boosted|promoted|featured)\b/i.test(
@@ -511,7 +518,8 @@ var TopBoostedTokensAction = class {
   suppressInitialMessage = true;
   template = topBoostedTemplate;
   async validate(_runtime, message) {
-    const content = typeof message.content === "string" ? message.content : message.content?.text;
+    var _a;
+    const content = typeof message.content === "string" ? message.content : (_a = message.content) == null ? void 0 : _a.text;
     if (!content) return false;
     const hasTopKeyword = /\b(top|best|most)\b/i.test(content);
     const hasBoostedKeyword = /\b(boosted|promoted|featured)\b/i.test(
