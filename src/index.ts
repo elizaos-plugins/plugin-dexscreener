@@ -1,19 +1,21 @@
-import type { Plugin } from "@elizaos/core"
-import { TokenPriceAction } from "./actions/tokenAction"
-import { TokenPriceEvaluator } from "./evaluators/tokenEvaluator"
-import { TokenPriceProvider } from "./providers/tokenProvider"
-import { LatestTokensAction, LatestBoostedTokensAction, TopBoostedTokensAction } from "./actions/trendsAction"
+import type { Plugin, IAgentRuntime } from '@elizaos/core';
+import { DexScreenerService } from './service';
+import { dexscreenerActions } from './actions';
 
-export * as actions from "./actions"
-export * as evaluators from "./evaluators"
-export * as providers from "./providers"
+export const dexscreenerPlugin: Plugin = {
+  name: 'dexscreener-analytics-plugin',
+  description: 'Plugin for DexScreener DEX analytics and token information',
+  actions: dexscreenerActions,
+  evaluators: [],
+  providers: [],
+  services: [DexScreenerService],
+  init: async (_, runtime: IAgentRuntime) => {
+    console.log('DexScreener plugin initialized');
+  },
+};
 
-export const dexScreenerPlugin: Plugin = {
-	name: "dexscreener",
-	description: "Dex Screener Plugin with Token Price Action, Token Trends, Evaluators and Providers",
-	actions: [new TokenPriceAction(), new LatestTokensAction(), new LatestBoostedTokensAction(), new TopBoostedTokensAction()],
-	evaluators: [new TokenPriceEvaluator()],
-	providers: [new TokenPriceProvider()],
-}
+export default dexscreenerPlugin;
 
-export default dexScreenerPlugin
+export * from './types';
+export { DexScreenerService } from './service';
+export * from './actions';
